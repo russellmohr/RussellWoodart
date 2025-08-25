@@ -31,9 +31,10 @@ footer {
   margin-top: 2rem;
 }
 .hero {
-  height: 80vh; /* 80% of screen height */
+  height: 60vh; /* 80% of screen height */
   background-image: url('images/RusselWoodartBanner.jpg');
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   position: relative;
   display: flex;

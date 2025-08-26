@@ -55,9 +55,9 @@ footer {
 
 /* Make logo visible, small, and semi-transparent */
 .logo {
-  max-height: 300px;   /* fixed height is more predictable than % */
+  max-height: 400px;   /* fixed height is more predictable than % */
   width: auto;
-  opacity: 0.3;       /* adjust to taste (0.5–0.8) */
+  opacity: 0.5;       /* adjust to taste (0.5–0.8) */
   display: block;
 }
 

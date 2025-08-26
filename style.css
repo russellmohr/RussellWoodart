@@ -55,22 +55,28 @@ footer {
 
 /* Make logo visible, small, and semi-transparent */
 .logo {
-  max-height: 200px;   /* fixed height is more predictable than % */
+  max-height: 300px;   /* fixed height is more predictable than % */
   width: auto;
   opacity: 0.3;       /* adjust to taste (0.5–0.8) */
   display: block;
 }
 
 /* Keep text readable over the photo without a box */
-.hero h1,
+.hero h1 {
+  font-size: 6rem;   /* big & bold */
+  margin: 0;
+  text-shadow: 3px 3px 12px rgba(0,0,0,1); /* keeps it readable */
+}
 .hero p {
   color: #fff;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+  text-shadow: 2px 2px 8px rgba(0,0,0,1);
   margin: 0;
 }
 
 .tagline {
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
+ font-size: 2.5rem;   /* was ~1.2rem earlier */
   font-style: italic;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,1);
 }

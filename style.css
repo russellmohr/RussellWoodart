@@ -41,7 +41,7 @@ footer {
 */
 .hero-img-wrap {
   position: relative;
-  min-height: 70vh;          /* tall hero on desktop */
+  min-height: 60vh;          /* tall hero on desktop */
   width: 100%;
   overflow: hidden;
 
@@ -78,9 +78,9 @@ footer {
 
 /* Logo: small, semi-transparent */
 .logo {
-  max-height: 60px;          /* adjust to taste */
+  max-height: 350px;          /* adjust to taste */
   width: auto;
-  opacity: 0.7;
+  opacity: 0.5;
   display: block;
   margin: 0 auto 12px;
 }

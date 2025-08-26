@@ -63,9 +63,9 @@ footer {
 
 /* Keep text readable over the photo without a box */
 .hero h1 {
-  font-size: 6rem;   /* big & bold */
+  font-size: 4rem;   /* big & bold */
   margin: 0;
-  text-shadow: 3px 3px 12px rgba(0,0,0,1); /* keeps it readable */
+  text-shadow: 2px 2px 6px rgba(0,0,0,2); /* keeps it readable */
 }
 .hero p {
   color: #fff;
@@ -74,9 +74,9 @@ footer {
 }
 
 .tagline {
- font-size: 2.5rem;   /* was ~1.2rem earlier */
+ font-size: 1.7rem;   /* was ~1.2rem earlier */
   font-style: italic;
   letter-spacing: 1px;
   margin-top: 10px;
-  text-shadow: 2px 2px 8px rgba(0,0,0,1);
+  text-shadow: 1px 1px 4px rgba(0,0,0,2);
 }

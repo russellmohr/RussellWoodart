@@ -112,3 +112,38 @@ footer {
    - .hero { ... } (background-image hero) 
    - .hero .overlay { ... }
 */
+
+/**************************************************************************
+.gallery {
+  padding: 2rem;
+  text-align: center;
+}
+
+.gallery h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.grid .item img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.grid .item img:hover {
+  transform: scale(1.05);
+}
+
+.grid .item p {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+/**************************************************************************

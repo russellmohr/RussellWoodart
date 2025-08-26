@@ -28,39 +28,41 @@
     <p class="sub">Available pieces ready to ship. One-of-a-kind works.</p>
 
     <div class="products" id="productGrid">
-      <!-- Product: Golden Manzanita Hollow Form -->
+      <!-- Product 1 -->
       <div class="product-card" data-id="GoldenManHF">
         <img src="/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg" alt="Manzanita Hollow Form — Golden Epoxy"/>
         <div class="product-body">
           <h3 class="product-title">Manzanita Hollow Form — Golden Epoxy</h3>
           <p class="product-sub">Manzanita burl + golden epoxy</p>
           <div class="price" data-price="450">USD $450</div>
-          <div class="badges">
-            <!-- Example badges:
-            <span class="badge reserved">Reserved</span>
-            <span class="badge sold">Sold</span>
-            -->
-          </div>
           <button class="btn-add" data-add="GoldenManHF">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/Pieces/GoldenManHF.html">View details</a>
         </div>
       </div>
 
-      <!-- Example (copy to add more products)
-      <div class="product-card" data-id="CherryGoblet01">
-        <img src="/Images/Gallery/CherryGoblet01/CherryGoblet01-1.jpg" alt="Cherry Burl Goblet"/>
+      <!-- Product 2 -->
+      <div class="product-card" data-id="SegmentBocoteBowl">
+        <img src="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg" alt="Segment Bocote Bowl"/>
+        <div class="product-body">
+          <h3 class="product-title">Segment Bocote Bowl</h3>
+          <p class="product-sub">Segmented Bocote bowl</p>
+          <div class="price" data-price="320">USD $320</div> <!-- edit price if needed -->
+          <button class="btn-add" data-add="SegmentBocoteBowl">Add to Cart</button>
+          <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" data-id="CherryBurlGoblet">
+        <img src="/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet.1.jpg" alt="Cherry Burl Goblet"/>
         <div class="product-body">
           <h3 class="product-title">Cherry Burl Goblet</h3>
           <p class="product-sub">Cherry burl, oil-wax finish</p>
-          <div class="price" data-price="220">USD $220</div>
-          <div class="badges">
-            <span class="badge reserved">Reserved</span>
-          </div>
-          <button class="btn-add" data-add="CherryGoblet01" disabled>Add to Cart</button>
-          <a class="btn" style="display:inline-block;margin-top:8px" href="/Pieces/CherryGoblet01.html">View details</a>
+          <div class="price" data-price="260">USD $260</div> <!-- edit price if needed -->
+          <button class="btn-add" data-add="CherryBurlGoblet">Add to Cart</button>
+          <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
         </div>
       </div>
-      -->
     </div>
 
     <div class="custom-order">
@@ -73,7 +75,7 @@
   <!-- Floating Cart Button -->
   <button class="cart-fab" id="cartFab">Cart (<span id="cartCount">0</span>)</button>
 
-  <!-- Cart Drawer -->
+  <!-- Cart Drawer (no quantity controls) -->
   <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
     <div class="cart-header">
       <h3 style="margin:0">Your Cart</h3>
@@ -85,70 +87,69 @@
       <span id="cartTotal">$0.00</span>
     </div>
     <div class="paypal-wrap">
-      <!-- PayPal Buttons mount here -->
       <div id="paypal-button-container"></div>
       <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
     </div>
   </aside>
 
-  <!-- PayPal SDK (Abaj7oQMyPwxm0yMmObDexczAI6l4l_fXu_jKVy7Ds9-utBc5IjT9oau34G0kuwaZ_5e3Or76PwcflsF) -->
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD" data-sdk-integration-source="button-factory"></script>
+  <!-- PayPal SDK -->
+  <!-- Sandbox (shows real buttons): client-id=sb. Switch to Live by replacing "sb" with your Live Client ID. -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 
   <script>
-  // ---------- Simple product catalog ----------
+  // ---------- Product catalog ----------
   const PRODUCTS = {
     "GoldenManHF": {
       id: "GoldenManHF",
       name: "Manzanita Hollow Form — Golden Epoxy",
       price: 45000, // cents
       img: "/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+    },
+    "SegmentBocoteBowl": {
+      id: "SegmentBocoteBowl",
+      name: "Segment Bocote Bowl",
+      price: 32000, // edit if needed
+      img: "/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg"
+    },
+    "CherryBurlGoblet": {
+      id: "CherryBurlGoblet",
+      name: "Cherry Burl Goblet",
+      price: 26000, // edit if needed
+      img: "/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet.1.jpg"
     }
-    // Add more products here...
   };
 
-  // ---------- Cart state (localStorage) ----------
+  // ---------- Cart (one-of-a-kind: max 1 each) ----------
   const CART_KEY = "rw_cart_v1";
   const $ = (sel) => document.querySelector(sel);
 
   function loadCart() {
-    try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
-    catch { return {}; }
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch { return []; }
   }
   function saveCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     renderCart();
   }
-  function addToCart(id, qty=1) {
+  function addToCart(id) {
     const cart = loadCart();
-    cart[id] = (cart[id] || 0) + qty;
+    if (!cart.includes(id)) cart.push(id);    // add only if not already there
     saveCart(cart);
+    disableAddedButtons();
     openCart();
   }
-  function setQty(id, qty) {
-    const cart = loadCart();
-    if (qty <= 0) { delete cart[id]; }
-    else { cart[id] = qty; }
+  function removeFromCart(id) {
+    const cart = loadCart().filter(x => x !== id);
     saveCart(cart);
+    disableAddedButtons();
   }
-  function cartCount() {
-    const cart = loadCart();
-    return Object.values(cart).reduce((a,b)=>a+b, 0);
-  }
-  function cartLines() {
-    const cart = loadCart();
-    return Object.entries(cart).map(([id, qty]) => {
-      const p = PRODUCTS[id];
-      return { id, qty, name: p.name, img: p.img, price: p.price, lineTotal: p.price * qty };
-    });
-  }
-  function cartTotalCents() {
-    return cartLines().reduce((sum,l)=>sum + l.lineTotal, 0);
-  }
+  function cartCount() { return loadCart().length; }
+  function cartLines() { return loadCart().map(id => ({ ...PRODUCTS[id] })); }
+  function cartTotalCents() { return cartLines().reduce((s,p)=>s+p.price, 0); }
   function fmtUSD(cents) {
     return new Intl.NumberFormat('en-US',{ style:'currency', currency:'USD' }).format(cents/100);
   }
 
-  // ---------- UI: Cart rendering ----------
   function renderCart() {
     const itemsDiv = $("#cartItems");
     const totalSpan = $("#cartTotal");
@@ -156,6 +157,7 @@
     const lines = cartLines();
 
     countSpan.textContent = cartCount();
+
     if (!lines.length) {
       itemsDiv.innerHTML = "<p>Your cart is empty.</p>";
       totalSpan.textContent = "$0.00";
@@ -166,55 +168,61 @@
       <div class="cart-row">
         <img src="${l.img}" alt="${l.name}"/>
         <h4>${l.name}</h4>
-        <div class="qty">
-          <button aria-label="Decrease" onclick="setQty('${l.id}', ${l.qty-1})">–</button>
-          <span>${l.qty}</span>
-          <button aria-label="Increase" onclick="setQty('${l.id}', ${l.qty+1})">+</button>
-        </div>
-        <div style="font-weight:800">${fmtUSD(l.lineTotal)}</div>
+        <button class="btn" style="padding:6px 10px" onclick="removeFromCart('${l.id}')">Remove</button>
+        <div style="font-weight:800;text-align:right">${fmtUSD(l.price)}</div>
       </div>
     `).join('');
+
     totalSpan.textContent = fmtUSD(cartTotalCents());
   }
 
-  // ---------- Drawer controls ----------
+  function disableAddedButtons() {
+    const cart = loadCart();
+    document.querySelectorAll("[data-add]").forEach(btn => {
+      if (cart.includes(btn.dataset.add)) {
+        btn.textContent = "Added";
+        btn.disabled = true;
+      } else {
+        btn.textContent = "Add to Cart";
+        btn.disabled = false;
+      }
+    });
+  }
+
+  // Drawer controls
   const drawer = $("#cartDrawer");
   function openCart(){ drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); renderCart(); }
   function closeCart(){ drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); }
-
   $("#cartFab").addEventListener("click", openCart);
   $("#closeCart").addEventListener("click", closeCart);
 
-  // ---------- Product buttons ----------
+  // Product buttons
   document.querySelectorAll("[data-add]").forEach(btn=>{
-    btn.addEventListener("click", () => addToCart(btn.dataset.add, 1));
+    btn.addEventListener("click", () => addToCart(btn.dataset.add));
   });
 
-  // If arriving with ?add=ProductId in URL, auto-add then open cart
+  // Auto-add via URL param
   const urlParams = new URLSearchParams(location.search);
   const addParam = urlParams.get("add");
-  if (addParam && PRODUCTS[addParam]) addToCart(addParam, 1);
+  if (addParam && PRODUCTS[addParam]) addToCart(addParam);
 
-  // ---------- PayPal Buttons ----------
+  // PayPal Buttons (Sandbox)
   function paypalCreateOrder(data, actions) {
     const lines = cartLines();
     if (!lines.length) return;
 
-    // Build items for PayPal (USD)
     const value = (cartTotalCents()/100).toFixed(2);
     return actions.order.create({
       purchase_units: [{
         amount: {
           currency_code: "USD",
           value,
-          breakdown: {
-            item_total: { currency_code: "USD", value }
-          }
+          breakdown: { item_total: { currency_code: "USD", value } }
         },
         items: lines.map(l => ({
           name: l.name,
           unit_amount: { currency_code: "USD", value: (l.price/100).toFixed(2) },
-          quantity: l.qty.toString()
+          quantity: "1"
         }))
       }]
     });
@@ -222,9 +230,9 @@
 
   function paypalOnApprove(data, actions) {
     return actions.order.capture().then(function(details) {
-      // Clear cart after successful payment
       localStorage.removeItem(CART_KEY);
       renderCart();
+      disableAddedButtons();
       alert("Thank you, " + (details.payer.name?.given_name || "collector") + "! Your order was completed.");
       closeCart();
     });
@@ -237,8 +245,9 @@
     }).render('#paypal-button-container');
   }
 
-  // Initial render
+  // Initial UI state
   renderCart();
+  disableAddedButtons();
   </script>
 </body>
 </html>

@@ -1,53 +1,113 @@
-/* Base */
+/* ================================
+   Global & Fonts
+==================================*/
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
+
+:root{
+  --brand-brown: #4a2c2a;
+  --text: #333;
+  --bg: #f8f5f2;
+  --shadow: rgba(0,0,0,0.15);
+}
+
+* { box-sizing: border-box; }
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f8f5f2;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* NAV HEADER (brown bar) — target only the site header, not the hero */
-.site-header {
-  background: #4a2c2a;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
+main { padding: 2rem; }
 
-.nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-}
-.nav a:hover {
-  text-decoration: underline;
-}
-
-/* Main + Footer */
-main {
-  padding: 2rem;
-}
 footer {
-  background: #4a2c2a;
-  color: white;
+  background: var(--brand-brown);
+  color: #fff;
   text-align: center;
   padding: 1rem;
   margin-top: 2rem;
 }
 
-/* === HERO (IMG-BASED, MOBILE-SAFE) ===
-   Matches the <header class="hero-img-wrap"> in index.html
-*/
+/* ================================
+   Site Header (logo top-left)
+==================================*/
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--brand-brown);
+  color: #fff;
+  padding: 0.55rem 1.25rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Top-left logo (small) */
+.header-logo {
+  height: 100px;        /* <<< smaller logo */
+  width: auto;
+  display: block;
+}
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.site-title {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Fancy cursive tagline under title */
+.tagline {
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.95rem;
+  margin: 2px 0 0;
+  opacity: 0.95;
+}
+
+/* Nav */
+.nav a {
+  color: #fff;
+  margin-left: 14px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav a:hover { text-decoration: underline; }
+
+/* Mobile header tweaks */
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .header-logo { height: 22px; }    /* even smaller on mobile */
+  .site-title { font-size: 1rem; }
+  .nav { margin-top: 6px; }
+}
+
+/* ================================
+   HERO (img-based, mobile-safe)
+==================================*/
 .hero-img-wrap {
   position: relative;
-  min-height: 70vh;          /* tall hero on desktop */
   width: 100%;
+  min-height: 70vh;            /* desktop hero height */
+  background: #000;            /* letterbox color if needed */
   overflow: hidden;
 
-  /* center overlay content */
   display: flex;
-  flex-direction: column;    /* stack: logo, title, tagline */
+  flex-direction: column;      /* stack: logo, title, tagline */
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -56,85 +116,63 @@ footer {
   color: #fff;
 }
 
-/* The banner image fills the area without cropping */
+/* Banner image shows fully on mobile; no trim on desktop */
 .hero-photo {
   position: absolute;
-  inset: 0;                                  /* top/right/bottom/left: 0 */
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;                       /* <— show whole image (no trimming) */
-  object-position: center center;            /* centered horizontally & vertically */
-  background: transparent;                   /* wrapper handles letterbox color */
+  object-fit: contain;         /* show entire image (no cropping) */
+  object-position: center center;
   z-index: 0;
 }
-/* Overlay elements sit above the image */
+
+/* Overlay content above photo */
 .hero-img-wrap .logo,
 .hero-img-wrap h1,
 .hero-img-wrap .tagline {
   position: relative;
   z-index: 1;
   margin: 0;
-  text-shadow: 3px 3px 12px rgba(0,0,0,1); /* strong glow for readability */
+  text-shadow: 3px 3px 12px rgba(0,0,0,1);
 }
 
-/* Logo: small, semi-transparent */
-/* .logo {
-  /*max-height: 350px;          /* adjust to taste */
-  /*width: auto;
-  /*opacity: 0.5;
-  /*display: block;
-  /*margin: 0 auto 12px;
-/*}
-/*
-.header-logo {
-  height: 36px;       /* much smaller */
+/* Hero overlay logo (different from header-logo) */
+.logo {
+  max-height: 350px;
   width: auto;
+  opacity: 0.5;
   display: block;
+  margin: 0 auto 12px;
 }
 
-/* Title + tagline */
 .hero-img-wrap h1 {
-  font-size: 3rem;           /* desktop base */
+  font-size: 3rem;
   line-height: 1.1;
 }
-/*.tagline {
-  /*font-size: 1.5rem;
-  /*margin-top: 8px;
-  /*letter-spacing: .5px;
-  /*font-style: italic;
-/*}
 
-/* Site title */
-.site-title {
-  font-size: 1.2rem;
-  margin: 0;
+.hero-img-wrap .tagline {       /* reuse cursive if you show it in hero */
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+  margin-top: 8px;
 }
 
-/* Tagline in cursive */
-.tagline {
-  font-family: 'Dancing Script', cursive; /* fancy script font */
-  font-size: 1rem;                        /* smaller than title */
-  margin: 2px 0 0;
-  opacity: 0.95;
-}
-
-/* --- MOBILE TUNING --- */
+/* Hero responsive */
 @media (max-width: 600px) {
   .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 100px; margin-bottom: 10px; }
+  .logo { max-height: 44px; margin-bottom: 10px; }
   .hero-img-wrap h1 { font-size: 2.2rem; }
-  .tagline { font-size: 1.2rem; }
+  .hero-img-wrap .tagline { font-size: 1.2rem; }
 }
 
-/* ----- REMOVE/AVOID OLD/CONFLICTING RULES -----
-   Do NOT keep any of these in your file:
-   - header { background: ... }  <-- replaced by .site-header above
-   - .hero { ... } (background-image hero) 
-   - .hero .overlay { ... }
-*/
+/* Optional: taller hero on very large screens to reduce letterboxing */
+@media (min-width: 1200px) {
+  .hero-img-wrap { min-height: 75vh; }
+}
 
-/**************************************************************************
-/* Gallery Layout */
+/* ================================
+   Gallery Grid
+==================================*/
 .gallery {
   padding: 2rem;
   text-align: center;
@@ -149,33 +187,32 @@ footer {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 }
 
-/* Thumbnail images */
 .grid .item img {
   width: 100%;
-  height: 200px;        /* fixed height for thumbnails */
-  object-fit: cover;    /* crop to fit nicely */
+  height: 200px;            /* thumbnail height */
+  object-fit: cover;        /* neat cropped tiles */
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .grid .item img:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.22);
 }
 
-/**************************************************************************
-
-/* Piece page layout */
-
-.thumbs img.active-thumb {
-  outline: 3px solid #4a2c2a;
-  outline-offset: 2px;
+.grid .item p {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
+/* ================================
+   Piece Detail Page
+==================================*/
 .piece {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -188,7 +225,7 @@ footer {
 .piece-main {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: contain;          /* show full image */
+  object-fit: contain;       /* show full main image */
   background: #fff;
   border: 1px solid #eee;
   border-radius: 10px;
@@ -200,7 +237,6 @@ footer {
   gap: 10px;
   margin-top: 10px;
 }
-
 .thumbs img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -210,6 +246,10 @@ footer {
   transition: transform .15s;
 }
 .thumbs img:hover { transform: scale(1.03); }
+.thumbs img.active-thumb {
+  outline: 3px solid var(--brand-brown);
+  outline-offset: 2px;
+}
 
 .piece-info h2 { margin-top: 0; }
 .specs { padding-left: 16px; }
@@ -221,7 +261,7 @@ footer {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 14px;
-  background: #4a2c2a;
+  background: var(--brand-brown);
   color: #fff;
   border-radius: 6px;
   text-decoration: none;
@@ -229,9 +269,6 @@ footer {
 }
 .btn:hover { background:#633c38; }
 
-/* Responsive */
 @media (max-width: 900px) {
   .piece { grid-template-columns: 1fr; }
 }
-
-/**************************************************************************

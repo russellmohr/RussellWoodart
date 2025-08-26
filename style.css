@@ -1,15 +1,53 @@
-/* === HERO (IMG-BASED, MOBILE- & DESKTOP-SAFE) === */
+/* Base */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f5f2;
+  color: #333;
+}
+
+/* NAV HEADER (brown bar) — target only the site header, not the hero */
+.site-header {
+  background: #4a2c2a;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Main + Footer */
+main {
+  padding: 2rem;
+}
+footer {
+  background: #4a2c2a;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+/* === HERO (IMG-BASED, MOBILE-SAFE) ===
+   Matches the <header class="hero-img-wrap"> in index.html
+*/
 .hero-img-wrap {
   position: relative;
+  min-height: 70vh;          /* tall hero on desktop */
   width: 100%;
-  /* Tall enough to showcase the image but not force cropping */
-  min-height: 70vh;                          /* desktop base */
-  background: #000;                          /* letterbox color */
   overflow: hidden;
 
-  /* Center overlay content */
+  /* center overlay content */
   display: flex;
-  flex-direction: column;                    /* stack: logo, title, tagline */
+  flex-direction: column;    /* stack: logo, title, tagline */
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -29,7 +67,6 @@
   background: transparent;                   /* wrapper handles letterbox color */
   z-index: 0;
 }
-
 /* Overlay elements sit above the image */
 .hero-img-wrap .logo,
 .hero-img-wrap h1,
@@ -37,12 +74,12 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  text-shadow: 3px 3px 12px rgba(0,0,0,1);   /* strong glow for readability */
+  text-shadow: 3px 3px 12px rgba(0,0,0,1); /* strong glow for readability */
 }
 
-/* Logo: modest size + semi-transparent */
+/* Logo: small, semi-transparent */
 .logo {
-  max-height: 350px;                          /* desktop; adjust to taste */
+  max-height: 350px;          /* adjust to taste */
   width: auto;
   opacity: 0.5;
   display: block;
@@ -51,7 +88,7 @@
 
 /* Title + tagline */
 .hero-img-wrap h1 {
-  font-size: 3rem;                           /* desktop base */
+  font-size: 3rem;           /* desktop base */
   line-height: 1.1;
 }
 .tagline {
@@ -63,24 +100,15 @@
 
 /* --- MOBILE TUNING --- */
 @media (max-width: 600px) {
-  .hero-img-wrap {
-    min-height: 60vh;                        /* shorter on phones */
-    padding: 28px 14px;
-  }
-  .logo {
-    max-height: 44px;
-    margin-bottom: 10px;
-  }
-  .hero-img-wrap h1 {
-    font-size: 2.2rem;
-  }
-  .tagline {
-    font-size: 1.2rem;
-  }
+  .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
+  .logo { max-height: 44px; margin-bottom: 10px; }
+  .hero-img-wrap h1 { font-size: 2.2rem; }
+  .tagline { font-size: 1.2rem; }
 }
 
-/* --- OPTIONAL DESKTOP TWEAKS --- */
-/* Make hero slightly taller on large screens if you want even less letterboxing */
-@media (min-width: 1200px) {
-  .hero-img-wrap { min-height: 75vh; }
-}
+/* ----- REMOVE/AVOID OLD/CONFLICTING RULES -----
+   Do NOT keep any of these in your file:
+   - header { background: ... }  <-- replaced by .site-header above
+   - .hero { ... } (background-image hero) 
+   - .hero .overlay { ... }
+*/

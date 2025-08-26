@@ -44,36 +44,33 @@ footer {
   color: white;
 }
 
-/*.hero .overlay {
-/*  background-color: rgba(0, 0, 0, 0.4);
-/*  padding: 10px 20px;  /* less space around text */
-/*  border-radius: 8px;
-/*  display: inline-block;  /* shrink box to wrap text only */
-/*}
-
-.hero h1, 
-.hero p {
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+.hero {
+  /* your existing background image/size/position + height here */
+  display: flex;
+  flex-direction: column;   /* <-- stack items top-to-bottom */
+  align-items: center;      /* center horizontally */
+  justify-content: center;  /* center vertically */
+  gap: 10px;                /* space between logo, title, tagline */
 }
 
-.hero h1 {
-  font-size: 3rem;
+/* Make logo visible, small, and semi-transparent */
+.logo {
+  max-height: 60px;   /* fixed height is more predictable than % */
+  width: auto;
+  opacity: 0.3;       /* adjust to taste (0.5–0.8) */
+  display: block;
+}
+
+/* Keep text readable over the photo without a box */
+.hero h1,
+.hero p {
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
   margin: 0;
 }
 
-.hero p {
-  font-size: 1.25rem;
-  margin-top: 10px;
-}
 .tagline {
-  font-size: 1.5rem;
-  margin-top: 10px;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
   font-style: italic;
-  letter-spacing: 1px;
-}
-.logo {
-  max-width: 20%;        /* makes it ~1/8th the current size */
-  opacity: 0.3;          /* 30% visible → adjust 0.5 for more transparency, 1.0 for none */
-  display: block;
-  margin: 0 auto 15px;   /* centers it and adds spacing below */
 }

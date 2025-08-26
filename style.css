@@ -54,7 +54,7 @@ footer {
 
 /* Top-left logo (small) */
 .header-logo {
-  height: 50px;   /* adjust if you want even smaller */
+  height: 80px;   /* adjust if you want even smaller */
   width: auto;
   display: block;
 }
@@ -111,7 +111,7 @@ footer {
   /* Keep logo/title left, center the menu below */
   .header-left { justify-self: start; }
   .nav { justify-self: center; }
-  .header-logo { height: 50px; }
+  .header-logo { height: 80px; }
   .site-title { font-size: 1.35rem; }
   .tagline { font-size: 1rem; }
 }
@@ -180,7 +180,7 @@ footer {
 /* Hero responsive */
 @media (max-width: 600px) {
   .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 50px; margin-bottom: 10px; }
+  .logo { max-height: 80px; margin-bottom: 10px; }
   .hero-img-wrap h1 { font-size: 2.2rem; }
   .hero-img-wrap .tagline { font-size: 1.2rem; }
 }

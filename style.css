@@ -115,8 +115,8 @@ footer {
   .header-left { justify-self: start; }
   .nav { justify-self: center; }
   .header-logo { height: 80px; }          /* still 80px on mobile */
-  .site-title { font-size: 2rem; }        /* larger on mobile than before */
-  .tagline { font-size: 1.4rem; }         /* larger on mobile than before */
+  .site-title { font-size: 1.6rem; }        /* larger on mobile than before */
+  .tagline { font-size: 1.3rem; }         /* larger on mobile than before */
 }
 
 /* ================================

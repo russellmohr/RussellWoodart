@@ -101,7 +101,7 @@ footer {
 /* --- MOBILE TUNING --- */
 @media (max-width: 600px) {
   .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 44px; margin-bottom: 10px; }
+  .logo { max-height: 100px; margin-bottom: 10px; }
   .hero-img-wrap h1 { font-size: 2.2rem; }
   .tagline { font-size: 1.2rem; }
 }

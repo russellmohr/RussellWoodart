@@ -116,7 +116,7 @@ footer {
   .nav { justify-self: center; }
   .header-logo { height: 80px; }          /* still 80px on mobile */
   .site-title { font-size: 1.6rem; }        /* larger on mobile than before */
-  .tagline { font-size: 1.3rem; }         /* larger on mobile than before */
+  .tagline { font-size: 1.1rem; }         /* larger on mobile than before */
 }
 
 /* ================================

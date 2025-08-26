@@ -45,9 +45,10 @@ footer {
 }
 
 .hero .overlay {
-  background-color: rgba(0, 0, 0, 0.4); /* darkens image for readability */
-  padding: 40px;
-  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;  /* less space around text */
+  border-radius: 8px;
+  display: inline-block;  /* shrink box to wrap text only */
 }
 
 .hero h1 {
@@ -66,8 +67,8 @@ footer {
   letter-spacing: 1px;
 }
 .logo {
-  max-width: 12%;        /* makes it ~1/8th the current size */
-  opacity: 0.5;          /* 50% visible → adjust 0.5 for more transparency, 1.0 for none */
+  max-width: 20%;        /* makes it ~1/8th the current size */
+  opacity: 0.3;          /* 30% visible → adjust 0.5 for more transparency, 1.0 for none */
   display: block;
   margin: 0 auto 15px;   /* centers it and adds spacing below */
 }

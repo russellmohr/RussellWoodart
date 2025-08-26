@@ -31,69 +31,89 @@ footer {
 }
 
 /* ================================
-   Site Header (logo top-left)
+   Header: logo left, title bigger, menu centered
 ==================================*/
+
+/* Use a grid so we can keep logo/title left and center the nav */
 .site-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* left | center | right (empty) */
   align-items: center;
-  justify-content: space-between;
-  background: var(--brand-brown);
+  background: #4a2c2a;
   color: #fff;
-  padding: 0.55rem 1.25rem;
+  padding: 0.7rem 1.25rem;
 }
 
+/* Left side: logo + title block */
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  justify-self: start; /* stays left */
 }
 
 /* Top-left logo (small) */
 .header-logo {
-  height: 100px;        /* <<< smaller logo */
+  height: 28px;   /* adjust if you want even smaller */
   width: auto;
   display: block;
 }
 
+/* Title block (bigger title + cursive tagline) */
 .title-block {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
+/* BIGGER site title */
 .site-title {
-  font-size: 1.1rem;
+  font-size: 1.6rem;      /* was smaller — now larger */
   margin: 0;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-/* Fancy cursive tagline under title */
+/* Bigger, fancy cursive tagline under title */
 .tagline {
-  font-family: 'Dancing Script', cursive;
-  font-size: 0.95rem;
-  margin: 2px 0 0;
+  font-family: 'Dancing Script', cursive; /* make sure the font is loaded */
+  font-size: 1.1rem;       /* larger than before */
+  margin: 3px 0 0;
   opacity: 0.95;
 }
 
-/* Nav */
+/* Center the nav in the header */
+.nav {
+  justify-self: center;    /* centers in the middle column */
+}
+
 .nav a {
   color: #fff;
-  margin-left: 14px;
+  margin: 0 14px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 .nav a:hover { text-decoration: underline; }
 
-/* Mobile header tweaks */
-@media (max-width: 600px) {
+/* Optional: reserve right column space so center stays truly centered */
+.site-header::after {
+  content: "";
+  justify-self: end;
+}
+
+/* Mobile tweaks */
+@media (max-width: 700px) {
   .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    grid-template-columns: 1fr; /* stack rows on small screens */
+    row-gap: 8px;
+    padding: 0.7rem 1rem;
   }
-  .header-logo { height: 22px; }    /* even smaller on mobile */
-  .site-title { font-size: 1rem; }
-  .nav { margin-top: 6px; }
+  /* Keep logo/title left, center the menu below */
+  .header-left { justify-self: start; }
+  .nav { justify-self: center; }
+  .header-logo { height: 24px; }
+  .site-title { font-size: 1.35rem; }
+  .tagline { font-size: 1rem; }
 }
 
 /* ================================
@@ -160,7 +180,7 @@ footer {
 /* Hero responsive */
 @media (max-width: 600px) {
   .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 44px; margin-bottom: 10px; }
+  .logo { max-height: 100px; margin-bottom: 10px; }
   .hero-img-wrap h1 { font-size: 2.2rem; }
   .hero-img-wrap .tagline { font-size: 1.2rem; }
 }

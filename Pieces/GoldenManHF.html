@@ -22,30 +22,43 @@
   <main class="piece">
     <div class="piece-media">
       <!-- Main image -->
-      <img id="mainImg"
-           src="../Images/Gallery/GoldenManHF/IMG_0038.jpg"
-           alt="Manzanita Hollow Form with Golden Epoxy - main view"
-           class="piece-main" />
+      <img
+        id="mainImg"
+        src="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+        alt="Manzanita Hollow Form with Golden Epoxy - main view"
+        class="piece-main"
+      />
 
       <!-- Thumbnails (click to swap main image) -->
       <div class="thumbs">
-        <img src="../Images/Gallery/GoldenManHF/IMG_0038.jpg"
-             alt="Main view"
-             loading="lazy"
-             onclick="swap('../Images/Gallery/GoldenManHF/IMG_0041.jpg')">
-        <img src="../Images/Gallery/GoldenManHF/IMG_0041.jpg"
-             alt="Angle view"
-             loading="lazy"
-             onclick="swap('../Images/Gallery/GoldenManHF/IMG_0041.jpg')">
-        <img src="../Images/Gallery/GoldenManHF/IMG_0043.jpg"
-             alt="Detail view"
-             loading="lazy"
-             onclick="swap('../Images/Gallery/GoldenManHF/IMG_0043.jpg')">
+        <img
+          src="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+          alt="Main view"
+          loading="lazy"
+        />
+        <img
+          src="../Images/Gallery/GoldenManHF/GoldenManHF-2.jpg"
+          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-2.jpg"
+          alt="Angle view"
+          loading="lazy"
+        />
+        <img
+          src="../Images/Gallery/GoldenManHF/GoldenManHF-3.jpg"
+          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-3.jpg"
+          alt="Detail view"
+          loading="lazy"
+        />
       </div>
 
       <!-- View full size (opens current main image) -->
-      <a href="../Images/Gallery/GoldenManHF/IMG_0043.jpg"
-         class="btn" id="viewLarge" target="_blank" rel="noopener">
+      <a
+        href="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+        class="btn"
+        id="viewLarge"
+        target="_blank"
+        rel="noopener"
+      >
         View full size
       </a>
     </div>
@@ -65,7 +78,6 @@
       <!-- <a class="btn" href="https://your-buy-link" target="_blank" rel="noopener">Buy this piece</a> -->
 
       <!-- Optional YouTube embed -->
-      <!-- Replace VIDEO_ID with your video’s ID -->
       <!--
       <div class="video">
         <iframe width="560" height="315"
@@ -76,3 +88,32 @@
           allowfullscreen></iframe>
       </div>
       -->
+
+      <p style="margin-top:14px;">
+        <a href="../gallery.html" class="btn">← Back to Gallery</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Swap the main image + "View full size" link to the clicked thumbnail
+    (function () {
+      const mainImg  = document.getElementById('mainImg');
+      const viewLink = document.getElementById('viewLarge');
+      const thumbs   = document.querySelectorAll('.thumbs img');
+
+      thumbs.forEach(img => {
+        img.addEventListener('click', () => {
+          const src = img.getAttribute('data-full') || img.src;
+          mainImg.src = src;
+          viewLink.href = src;
+
+          // Optional: highlight active thumbnail
+          thumbs.forEach(t => t.classList.remove('active-thumb'));
+          img.classList.add('active-thumb');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

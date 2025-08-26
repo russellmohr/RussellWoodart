@@ -150,6 +150,12 @@ footer {
 /**************************************************************************
 
 /* Piece page layout */
+
+.thumbs img.active-thumb {
+  outline: 3px solid #4a2c2a;
+  outline-offset: 2px;
+}
+
 .piece {
   display: grid;
   grid-template-columns: 1.2fr 1fr;

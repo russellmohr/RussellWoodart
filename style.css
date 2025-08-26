@@ -44,11 +44,16 @@ footer {
   color: white;
 }
 
-.hero .overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px 20px;  /* less space around text */
-  border-radius: 8px;
-  display: inline-block;  /* shrink box to wrap text only */
+/*.hero .overlay {
+/*  background-color: rgba(0, 0, 0, 0.4);
+/*  padding: 10px 20px;  /* less space around text */
+/*  border-radius: 8px;
+/*  display: inline-block;  /* shrink box to wrap text only */
+/*}
+
+.hero h1, 
+.hero p {
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
 }
 
 .hero h1 {

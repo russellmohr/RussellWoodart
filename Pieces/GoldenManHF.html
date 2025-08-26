@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Manzanita Hollow Form (Golden Epoxy) | Russell's Woodart</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="/style.css" />
   <style>
-    /* Make the video responsive without needing to edit your main CSS */
+    /* Keep video responsive without touching main CSS */
     .video {
       width: 100%;
       max-width: 820px;
@@ -16,34 +16,26 @@
       border-radius: 10px;
       overflow: hidden;
     }
-    .video iframe {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border: 0;
-    }
+    .video iframe { width:100%; height:100%; border:0; display:block; }
   </style>
 </head>
 <body>
   <!-- NAV -->
-<header class="site-header">
-  <div class="header-left">
-    <a href="/index.html">
-      <img src="/Images/Logo.png" alt="Russell's Woodart logo" class="header-logo">
-    </a>
-    <div class="title-block">
-      <h1 class="site-title">Russell's Woodart</h1>
-      <p class="tagline">Inspired by nature, shaped by hand</p>
+  <header class="site-header">
+    <div class="header-left">
+      <a href="/index.html"><img src="/Images/Logo.png" alt="Russell's Woodart logo" class="header-logo"/></a>
+      <div class="title-block">
+        <h1 class="site-title">Russell's Woodart</h1>
+        <p class="tagline">Inspired by nature, shaped by hand</p>
+      </div>
     </div>
-  </div>
-
-  <nav class="nav">
-    <a href="/index.html">Home</a>
-    <a href="/gallery.html">Gallery</a>
-    <a href="/shop.html">Shop</a>
-    <a href="/contact.html">Contact</a>
-  </nav>
-</header>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/gallery.html">Gallery</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </header>
 
   <!-- PIECE CONTENT -->
   <main class="piece">
@@ -51,45 +43,22 @@
       <!-- Main image -->
       <img
         id="mainImg"
-        src="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
+        src="/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
         alt="Manzanita Hollow Form with Golden Epoxy - main view"
         class="piece-main"
       />
 
       <!-- Thumbnails (click to swap main image) -->
       <div class="thumbs">
-        <img
-          src="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
-          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
-          alt="Main view"
-          loading="lazy"
-        />
-        <img
-          src="../Images/Gallery/GoldenManHF/GoldenManHF-2.jpg"
-          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-2.jpg"
-          alt="Angle view"
-          loading="lazy"
-        />
-        <img
-          src="../Images/Gallery/GoldenManHF/GoldenManHF-3.jpg"
-          data-full="../Images/Gallery/GoldenManHF/GoldenManHF-3.jpg"
-          alt="Detail view"
-          loading="lazy"
-        />
+        <img src="/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg" data-full="/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg" alt="Main view" loading="lazy"/>
+        <img src="/Images/Gallery/GoldenManHF/GoldenManHF-2.jpg" data-full="/Images/Gallery/GoldenManHF/GoldenManHF-2.jpg" alt="Angle view" loading="lazy"/>
+        <img src="/Images/Gallery/GoldenManHF/GoldenManHF-3.jpg" data-full="/Images/Gallery/GoldenManHF/GoldenManHF-3.jpg" alt="Detail view" loading="lazy"/>
       </div>
 
       <!-- View full size (opens current main image) -->
-      <a
-        href="../Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
-        class="btn"
-        id="viewLarge"
-        target="_blank"
-        rel="noopener"
-      >
-        View full size
-      </a>
+      <a href="/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg" class="btn" id="viewLarge" target="_blank" rel="noopener">View full size</a>
 
-      <!-- YouTube video (replace VIDEO_ID with your real YouTube ID) -->
+      <!-- YouTube video -->
       <div class="video">
         <iframe
           src="https://www.youtube.com/embed/RCcbTjLzOkI"
@@ -108,14 +77,13 @@
         <li><strong>Wood:</strong> Manzanita Burl</li>
         <li><strong>Dimensions:</strong> 10&quot; × 5&quot; (example)</li>
         <li><strong>Finish:</strong> Golden-tinted epoxy, high-gloss polish</li>
-        <li><strong>Status:</strong> Available (example)</li>
+        <li><strong>Status:</strong> Available</li>
       </ul>
 
-      <!-- If you have a buy/inquiry link, drop it here -->
-      <!-- <a class="btn" href="https://your-buy-link" target="_blank" rel="noopener">Buy this piece</a> -->
-
+      <!-- Link to Shop with auto-add param -->
       <p style="margin-top:14px;">
-        <a href="../gallery.html" class="btn">← Back to Gallery</a>
+        <a href="/shop.html?add=GoldenManHF" class="btn">🛒 Add to Cart</a>
+        <a href="/gallery.html" class="btn" style="margin-left:8px;">← Back to Gallery</a>
       </p>
     </section>
   </main>
@@ -132,8 +100,6 @@
           const src = img.getAttribute('data-full') || img.src;
           mainImg.src = src;
           viewLink.href = src;
-
-          // Optional: highlight active thumbnail
           thumbs.forEach(t => t.classList.remove('active-thumb'));
           img.classList.add('active-thumb');
         });

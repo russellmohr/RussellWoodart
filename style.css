@@ -58,7 +58,8 @@ footer {
 
 /* The banner image fills the hero */
 .hero-photo {
-  object-fit: cover;
+  object-fit: contain;
+  background: #000; /* or your page bg; shows behind the image if there are gaps */
   object-position: center top; /* show the top of the image */  
   position: absolute;
   inset: 0;                  /* top:0 right:0 bottom:0 left:0 */

@@ -78,12 +78,18 @@ footer {
 }
 
 /* Logo: small, semi-transparent */
-.logo {
-  max-height: 350px;          /* adjust to taste */
+/* .logo {
+  /*max-height: 350px;          /* adjust to taste */
+  /*width: auto;
+  /*opacity: 0.5;
+  /*display: block;
+  /*margin: 0 auto 12px;
+/*}
+/*
+.header-logo {
+  height: 36px;       /* much smaller */
   width: auto;
-  opacity: 0.5;
   display: block;
-  margin: 0 auto 12px;
 }
 
 /* Title + tagline */
@@ -91,11 +97,25 @@ footer {
   font-size: 3rem;           /* desktop base */
   line-height: 1.1;
 }
+/*.tagline {
+  /*font-size: 1.5rem;
+  /*margin-top: 8px;
+  /*letter-spacing: .5px;
+  /*font-style: italic;
+/*}
+
+/* Site title */
+.site-title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Tagline in cursive */
 .tagline {
-  font-size: 1.5rem;
-  margin-top: 8px;
-  letter-spacing: .5px;
-  font-style: italic;
+  font-family: 'Dancing Script', cursive; /* fancy script font */
+  font-size: 1rem;                        /* smaller than title */
+  margin: 2px 0 0;
+  opacity: 0.95;
 }
 
 /* --- MOBILE TUNING --- */

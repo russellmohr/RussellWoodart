@@ -1,4 +1,4 @@
-
+/* Base */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -6,20 +6,25 @@ body {
   background: #f8f5f2;
   color: #333;
 }
-header {
+
+/* NAV HEADER (brown bar) — target only the site header, not the hero */
+.site-header {
   background: #4a2c2a;
   color: white;
   padding: 1rem;
   text-align: center;
 }
-nav a {
+
+.nav a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
 }
-nav a:hover {
+.nav a:hover {
   text-decoration: underline;
 }
+
+/* Main + Footer */
 main {
   padding: 2rem;
 }
@@ -30,66 +35,61 @@ footer {
   padding: 1rem;
   margin-top: 2rem;
 }
-.hero {
-  height: 75vh; /* 75% of screen height */
-  background-image: url('images/RusselWoodartBanner.jpg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+
+/* === HERO (IMG-BASED, MOBILE-SAFE) ===
+   Matches the <header class="hero-img-wrap"> in index.html
+*/
+.hero-img-wrap {
   position: relative;
+  min-height: 70vh;          /* tall hero on desktop */
+  width: 100%;
+  overflow: hidden;
+
+  /* center overlay content */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-}
-
-/* HERO: works on mobile & desktop */
-.hero {
-  /* size */
-  min-height: 70vh;          /* use min-height so it never collapses on mobile */
-  padding: 40px 16px;        /* side padding so text doesn't touch edges */
-
-  /* background image */
-  background-image: url('images/RusselWoodartBanner.jpg');
-  background-size: cover;     /* fill area */
-  background-position: center;
-  background-repeat: no-repeat;
-  /* IMPORTANT: avoid parallax on iOS which can hide bg */
-  background-attachment: scroll;
-
-  /* layout */
-  display: flex;
-  flex-direction: column;     /* stack: logo, title, tagline */
+  flex-direction: column;    /* stack: logo, title, tagline */
   align-items: center;
   justify-content: center;
   text-align: center;
 
-  /* text color over photo */
+  padding: 40px 16px;
   color: #fff;
 }
 
-/* Logo: visible and scaled for mobile */
+/* The banner image fills the hero */
+.hero-photo {
+  position: absolute;
+  inset: 0;                  /* top:0 right:0 bottom:0 left:0 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* fill area without distortion */
+  z-index: 0;
+}
+
+/* Overlay elements sit above the image */
+.hero-img-wrap .logo,
+.hero-img-wrap h1,
+.hero-img-wrap .tagline {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  text-shadow: 3px 3px 12px rgba(0,0,0,1); /* strong glow for readability */
+}
+
+/* Logo: small, semi-transparent */
 .logo {
-  max-height: 60px;           /* predictable size */
+  max-height: 60px;          /* adjust to taste */
   width: auto;
   opacity: 0.7;
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto 12px;
 }
 
-/* Title + tagline with strong glow for readability */
-.hero h1,
-.hero p {
-  margin: 0;
-  text-shadow: 3px 3px 12px rgba(0,0,0,1);
-}
-
-.hero h1 {
-  font-size: 3rem;            /* desktop base; we’ll scale below */
+/* Title + tagline */
+.hero-img-wrap h1 {
+  font-size: 3rem;           /* desktop base */
   line-height: 1.1;
 }
-
 .tagline {
   font-size: 1.5rem;
   margin-top: 8px;
@@ -97,10 +97,17 @@ footer {
   font-style: italic;
 }
 
-/* MOBILE: make sure nothing hides; scale text down for small screens */
+/* --- MOBILE TUNING --- */
 @media (max-width: 600px) {
-  .hero { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 44px; }
-  .hero h1 { font-size: 2.2rem; }
+  .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
+  .logo { max-height: 44px; margin-bottom: 10px; }
+  .hero-img-wrap h1 { font-size: 2.2rem; }
   .tagline { font-size: 1.2rem; }
 }
+
+/* ----- REMOVE/AVOID OLD/CONFLICTING RULES -----
+   Do NOT keep any of these in your file:
+   - header { background: ... }  <-- replaced by .site-header above
+   - .hero { ... } (background-image hero) 
+   - .hero .overlay { ... }
+*/

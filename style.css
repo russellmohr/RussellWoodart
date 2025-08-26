@@ -52,11 +52,12 @@ footer {
   justify-self: start; /* stays left */
 }
 
-/* Top-left logo (small) */
+/* Top-left logo — solid and fixed 80px (desktop & mobile) */
 .header-logo {
-  height: 80px;   /* adjust if you want even smaller */
+  height: 80px;
   width: auto;
   display: block;
+  opacity: 1; /* solid, not transparent */
 }
 
 /* Title block (bigger title + cursive tagline) */
@@ -68,17 +69,19 @@ footer {
 
 /* BIGGER site title */
 .site-title {
-  font-size: 1.6rem;      /* was smaller — now larger */
+  font-size: 2.4rem;  /* larger on desktop */
   margin: 0;
   font-weight: 800;
+  line-height: 1.2;
 }
 
 /* Bigger, fancy cursive tagline under title */
 .tagline {
   font-family: 'Dancing Script', cursive; /* make sure the font is loaded */
-  font-size: 1.1rem;       /* larger than before */
-  margin: 3px 0 0;
+  font-size: 1.6rem;    /* larger on desktop */
+  margin: 4px 0 0;
   opacity: 0.95;
+  letter-spacing: .5px;
 }
 
 /* Center the nav in the header */
@@ -111,9 +114,9 @@ footer {
   /* Keep logo/title left, center the menu below */
   .header-left { justify-self: start; }
   .nav { justify-self: center; }
-  .header-logo { height: 80px; }
-  .site-title { font-size: 1.35rem; }
-  .tagline { font-size: 1rem; }
+  .header-logo { height: 80px; }          /* still 80px on mobile */
+  .site-title { font-size: 2rem; }        /* larger on mobile than before */
+  .tagline { font-size: 1.4rem; }         /* larger on mobile than before */
 }
 
 /* ================================
@@ -159,9 +162,9 @@ footer {
 
 /* Hero overlay logo (different from header-logo) */
 .logo {
-  max-height: 350px;
+  max-height: 350px;  /* desktop overlay size */
   width: auto;
-  opacity: 0.5;
+  opacity: 0.5;       /* semi-transparent overlay */
   display: block;
   margin: 0 auto 12px;
 }
@@ -180,7 +183,7 @@ footer {
 /* Hero responsive */
 @media (max-width: 600px) {
   .hero-img-wrap { min-height: 60vh; padding: 28px 14px; }
-  .logo { max-height: 80px; margin-bottom: 10px; }
+  .logo { max-height: 100px; margin-bottom: 10px; }  /* mobile overlay size = 100px */
   .hero-img-wrap h1 { font-size: 2.2rem; }
   .hero-img-wrap .tagline { font-size: 1.2rem; }
 }

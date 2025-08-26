@@ -65,3 +65,9 @@ footer {
   font-style: italic;
   letter-spacing: 1px;
 }
+.logo {
+  max-width: 12%;        /* makes it ~1/8th the current size */
+  opacity: 0.5;          /* 50% visible → adjust 0.5 for more transparency, 1.0 for none */
+  display: block;
+  margin: 0 auto 15px;   /* centers it and adds spacing below */
+}

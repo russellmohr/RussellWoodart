@@ -69,7 +69,7 @@ footer {
 
 /* BIGGER site title */
 .site-title {
-  font-size: 2.4rem;  /* larger on desktop */
+  font-size: 1.9rem;  /* larger on desktop */
   margin: 0;
   font-weight: 800;
   line-height: 1.2;
@@ -78,7 +78,7 @@ footer {
 /* Bigger, fancy cursive tagline under title */
 .tagline {
   font-family: 'Dancing Script', cursive; /* make sure the font is loaded */
-  font-size: 1.6rem;    /* larger on desktop */
+  font-size: 1.2rem;    /* larger on desktop */
   margin: 4px 0 0;
   opacity: 0.95;
   letter-spacing: .5px;

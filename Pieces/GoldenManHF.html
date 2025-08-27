@@ -35,7 +35,27 @@
       <a href="/shop.html">Shop</a>
       <a href="/contact.html">Contact</a>
     </nav>
+    <div class="header-right">
+      <button id="headerCartBtn" class="cart-link">Cart (<span id="cartCount">0</span>)</button>
+    </div>
   </header>
+
+<!-- Cart Drawer (shared on all pages) -->
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-header">
+    <h3 style="margin:0">Your Cart</h3>
+    <button id="closeCart" class="btn" style="padding:6px 10px">Close</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-total">
+    <span>Total</span>
+    <span id="cartTotal">$0.00</span>
+  </div>
+  <div class="paypal-wrap">
+    <div id="paypal-button-container"></div>
+    <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
+  </div>
+</aside>
 
   <!-- PIECE CONTENT -->
   <main class="piece">
@@ -106,5 +126,9 @@
       });
     })();
   </script>
+<!-- PayPal SDK (Sandbox now; replace client-id when you go Live) -->
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<!-- Shared cart logic -->
+<script src="/cart.js"></script>
 </body>
 </html>

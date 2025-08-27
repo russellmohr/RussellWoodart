@@ -21,7 +21,27 @@
       <a href="/shop.html">Shop</a>
       <a href="/contact.html">Contact</a>
     </nav>
+    <div class="header-right">
+      <button id="headerCartBtn" class="cart-link">Cart (<span id="cartCount">0</span>)</button>
+    </div>
   </header>
+
+<!-- Cart Drawer (shared on all pages) -->
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-header">
+    <h3 style="margin:0">Your Cart</h3>
+    <button id="closeCart" class="btn" style="padding:6px 10px">Close</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-total">
+    <span>Total</span>
+    <span id="cartTotal">$0.00</span>
+  </div>
+  <div class="paypal-wrap">
+    <div id="paypal-button-container"></div>
+    <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
+  </div>
+</aside>
 
   <main class="shop">
     <h2>Shop</h2>
@@ -35,7 +55,7 @@
           <h3 class="product-title">Manzanita Hollow Form — Golden Epoxy</h3>
           <p class="product-sub">Manzanita burl + golden epoxy</p>
           <div class="price" data-price="450">USD $450</div>
-          <button class="btn-add" data-add="GoldenManHF">Add to Cart</button>
+          <button class="btn-add" data-add="GoldenManHF" onclick="RWCart.add('GoldenManHF')">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/Pieces/GoldenManHF.html">View details</a>
         </div>
       </div>
@@ -47,7 +67,7 @@
           <h3 class="product-title">Segment Bocote Bowl</h3>
           <p class="product-sub">Segmented Bocote bowl</p>
           <div class="price" data-price="320">USD $320</div>
-          <button class="btn-add" data-add="SegmentBocoteBowl">Add to Cart</button>
+          <button class="btn-add" data-add="GoldenManHF" onclick="RWCart.add('GoldenManHF')">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
         </div>
       </div>
@@ -59,7 +79,7 @@
           <h3 class="product-title">Cherry Burl Goblet</h3>
           <p class="product-sub">Cherry burl, oil-wax finish</p>
           <div class="price" data-price="260">USD $260</div>
-          <button class="btn-add" data-add="CherryBurlGoblet">Add to Cart</button>
+          <button class="btn-add" data-add="GoldenManHF" onclick="RWCart.add('GoldenManHF')">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
         </div>
       </div>
@@ -71,9 +91,6 @@
       <a class="btn" href="/contact.html">Start a custom order</a>
     </div>
   </main>
-
-  <!-- Floating Cart Button -->
-  <button class="cart-fab" id="cartFab">Cart (<span id="cartCount">0</span>)</button>
 
   <!-- Cart Drawer (no quantity controls) -->
   <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
@@ -249,5 +266,9 @@
   renderCart();
   disableAddedButtons();
   </script>
+<!-- PayPal SDK (Sandbox now; replace client-id when you go Live) -->
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<!-- Shared cart logic -->
+<script src="/cart.js"></script>
 </body>
 </html>

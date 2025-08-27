@@ -103,10 +103,22 @@ footer {
 }
 .nav a:hover { text-decoration: underline; }
 
-/* Reserve right column (keeps center truly centered even if empty) */
-.site-header::after {
-  content: "";
+/* Right side of header: Cart link */
+.header-right {
   justify-self: end;
+}
+
+.cart-link {
+  background: #ffffff22;
+  border: 2px solid #ffffff55;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cart-link:hover {
+  background: #ffffff33;
 }
 
 /* Mobile tweaks (final baseline) */

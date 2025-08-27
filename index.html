@@ -8,21 +8,18 @@
 </head>
 <body>
 
-  <!-- HERO (IMG-BASED, MOBILE-SAFE) -->
+  <!-- HERO -->
   <header class="hero-img-wrap">
     <img src="/Images/RusselWoodartBanner.jpg" alt="Russell's Woodart banner" class="hero-photo" />
-    <!-- Overlay logo + text (logo here is semi-transparent, separate from top-left header logo) -->
     <img src="/Images/Logo.png" alt="Russell's Woodart overlay logo" class="logo" />
     <h1>Russell's Woodart</h1>
     <p class="tagline">Inspired by nature, shaped by hand</p>
   </header>
 
-  <!-- SITE NAV HEADER -->
+  <!-- SITE HEADER -->
   <header class="site-header">
     <div class="header-left">
-      <a href="/index.html">
-        <img src="/Images/Logo.png" alt="Russell's Woodart logo" class="header-logo"/>
-      </a>
+      <a href="/index.html"><img src="/Images/Logo.png" alt="Russell's Woodart logo" class="header-logo"/></a>
       <div class="title-block">
         <h1 class="site-title">Russell's Woodart</h1>
         <p class="tagline">Inspired by nature, shaped by hand</p>
@@ -35,38 +32,40 @@
       <a href="/contact.html">Contact</a>
     </nav>
     <div class="header-right">
-      <button id="headerCartBtn" class="cart-link">Cart (<span id="cartCount">0</span>)</button>
+      <button id="headerCartBtn" class="cart-link">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 18zM6.2 5l.4 2h12.2l-1.2 6H8.3l-.3-1.5H6.5L7.2 16h11.2a1 1 0 0 0 .98-.804l1.5-7.5A1 1 0 0 0 19.9 6H6.8L6.5 4.5A1 1 0 0 0 5.5 4H4v2h1.2z"/></svg>
+        </span>
+        Cart (<span id="cartCount">0</span>)
+      </button>
     </div>
   </header>
 
-<!-- Cart Drawer (shared on all pages) -->
-<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-  <div class="cart-header">
-    <h3 style="margin:0">Your Cart</h3>
-    <button id="closeCart" class="btn" style="padding:6px 10px">Close</button>
-  </div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-total">
-    <span>Total</span>
-    <span id="cartTotal">$0.00</span>
-  </div>
-  <div class="paypal-wrap">
-    <div id="paypal-button-container"></div>
-    <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
-  </div>
-</aside>
+  <!-- CART DRAWER -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <h3 style="margin:0">Your Cart</h3>
+      <button id="closeCart" class="btn" style="padding:6px 10px">Close</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-total">
+      <span>Total</span><span id="cartTotal">$0.00</span>
+    </div>
+    <div class="paypal-wrap">
+      <div id="paypal-button-container"></div>
+      <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
+    </div>
+  </aside>
 
   <main>
     <h2>Welcome to Russell's Woodart</h2>
     <p>Showcasing artistic burl and epoxy creations. Explore my pieces, watch my YouTube videos, and shop unique art.</p>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Russell's Woodart</p>
-  </footer>
-<!-- PayPal SDK (Sandbox now; replace client-id when you go Live) -->
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
-<!-- Shared cart logic -->
-<script src="/cart.js"></script>
+  <footer><p>&copy; 2025 Russell's Woodart</p></footer>
+
+  <!-- PayPal SDK (Sandbox) + shared cart -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+  <script src="/cart.js"></script>
 </body>
 </html>

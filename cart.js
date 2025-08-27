@@ -1,11 +1,11 @@
-<!-- Save this as /cart.js (no HTML wrapper in your file, just JS content below) -->
+<!-- Save as /cart.js (no HTML tags in your file; just the JS below) -->
 <script>
-// ======= Catalog (update titles/images/prices here) =======
+// ======= Catalog (update here) =======
 const RW_PRODUCTS = {
   "GoldenManHF": {
     id: "GoldenManHF",
     name: "Manzanita Hollow Form — Golden Epoxy",
-    price: 45000, // cents
+    price: 45000,
     img: "/Images/Gallery/GoldenManHF/GoldenManHF-1.jpg"
   },
   "SegmentBocoteBowl": {
@@ -22,53 +22,28 @@ const RW_PRODUCTS = {
   }
 };
 
-// ======= Cart (one-of-a-kind: max 1 each) =======
+// ======= Cart (one-of-a-kind) =======
 const RW_CART_KEY = "rw_cart_v1";
-const $$ = (sel) => document.querySelector(sel);
+const $$ = (s) => document.querySelector(s);
 
-function rwLoadCart() {
-  try { return JSON.parse(localStorage.getItem(RW_CART_KEY)) || []; }
-  catch { return []; }
-}
-function rwSaveCart(cart) {
-  localStorage.setItem(RW_CART_KEY, JSON.stringify(cart));
-  rwRenderCart();
-  rwUpdateHeaderCount();
-}
-function rwAddToCart(id) {
-  const cart = rwLoadCart();
-  if (!RW_PRODUCTS[id]) return;
-  if (!cart.includes(id)) cart.push(id);
-  rwSaveCart(cart);
-  rwDisableAddedButtons();
-  rwOpenCart();
-}
-function rwRemoveFromCart(id) {
-  const cart = rwLoadCart().filter(x => x !== id);
-  rwSaveCart(cart);
-  rwDisableAddedButtons();
-}
-function rwCartLines() {
-  return rwLoadCart().map(id => RW_PRODUCTS[id]).filter(Boolean);
-}
-function rwCartTotalCents() {
-  return rwCartLines().reduce((s,p)=>s+p.price, 0);
-}
-function rwFmtUSD(cents) {
-  return new Intl.NumberFormat('en-US',{ style:'currency', currency:'USD' }).format(cents/100);
-}
+function rwLoadCart(){ try { return JSON.parse(localStorage.getItem(RW_CART_KEY)) || []; } catch { return []; } }
+function rwSaveCart(cart){ localStorage.setItem(RW_CART_KEY, JSON.stringify(cart)); rwRenderCart(); rwUpdateHeaderCount(); }
+function rwAddToCart(id){ const cart = rwLoadCart(); if (!RW_PRODUCTS[id]) return; if (!cart.includes(id)) cart.push(id); rwSaveCart(cart); rwDisableAddedButtons(); rwOpenCart(); }
+function rwRemoveFromCart(id){ const cart = rwLoadCart().filter(x => x !== id); rwSaveCart(cart); rwDisableAddedButtons(); }
+function rwCartLines(){ return rwLoadCart().map(id => RW_PRODUCTS[id]).filter(Boolean); }
+function rwCartTotalCents(){ return rwCartLines().reduce((s,p)=>s+p.price, 0); }
+function rwFmtUSD(c){ return new Intl.NumberFormat('en-US',{ style:'currency', currency:'USD' }).format(c/100); }
 
-// ======= UI: Drawer, header, rendering =======
-function rwRenderCart() {
-  const itemsDiv = $$('#cartItems');
-  const totalSpan = $$('#cartTotal');
-  if (!itemsDiv || !totalSpan) return;
+// Drawer + rendering
+let rwDrawer;
+function rwOpenCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ rwDrawer.classList.add("open"); rwDrawer.setAttribute("aria-hidden","false"); rwRenderCart(); } }
+function rwCloseCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ rwDrawer.classList.remove("open"); rwDrawer.setAttribute("aria-hidden","true"); } }
 
+function rwRenderCart(){
+  const itemsDiv = $$('#cartItems'); const totalSpan = $$('#cartTotal'); if (!itemsDiv || !totalSpan) return;
   const lines = rwCartLines();
-  if (!lines.length) {
-    itemsDiv.innerHTML = "<p>Your cart is empty.</p>";
-    totalSpan.textContent = "$0.00";
-  } else {
+  if (!lines.length){ itemsDiv.innerHTML = "<p>Your cart is empty.</p>"; totalSpan.textContent = "$0.00"; }
+  else {
     itemsDiv.innerHTML = lines.map(l => `
       <div class="cart-row">
         <img src="${l.img}" alt="${l.name}"/>
@@ -80,15 +55,14 @@ function rwRenderCart() {
     totalSpan.textContent = rwFmtUSD(rwCartTotalCents());
   }
 
-  // Render/refresh PayPal buttons if present
+  // Mount PayPal buttons if present
   const paypalDiv = $$('#paypal-button-container');
-  if (paypalDiv && window.paypal) {
-    paypalDiv.innerHTML = ""; // re-render cleanly each time
+  if (paypalDiv && window.paypal){
+    paypalDiv.innerHTML = "";
     window.paypal.Buttons({
-      createOrder: function (data, actions) {
-        const lines = rwCartLines();
-        if (!lines.length) return;
+      createOrder: (data, actions) => {
         const value = (rwCartTotalCents()/100).toFixed(2);
+        if (value === "0.00") return;
         return actions.order.create({
           purchase_units: [{
             amount: {
@@ -96,7 +70,7 @@ function rwRenderCart() {
               value,
               breakdown: { item_total: { currency_code: "USD", value } }
             },
-            items: lines.map(l => ({
+            items: rwCartLines().map(l => ({
               name: l.name,
               unit_amount: { currency_code: "USD", value: (l.price/100).toFixed(2) },
               quantity: "1"
@@ -104,66 +78,37 @@ function rwRenderCart() {
           }]
         });
       },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function(details) {
+      onApprove: (data, actions) =>
+        actions.order.capture().then(details => {
           localStorage.removeItem(RW_CART_KEY);
-          rwRenderCart();
-          rwDisableAddedButtons();
+          rwRenderCart(); rwDisableAddedButtons();
           alert("Thank you, " + (details.payer.name?.given_name || "collector") + "! Your order was completed.");
           rwCloseCart();
-        });
-      }
+        })
     }).render('#paypal-button-container');
   }
 }
 
-function rwUpdateHeaderCount() {
-  const countSpan = $$('#cartCount');
-  if (countSpan) countSpan.textContent = rwLoadCart().length;
-}
-
-let rwDrawer;
-function rwOpenCart(){
-  rwDrawer = rwDrawer || $$('#cartDrawer');
-  if (rwDrawer) { rwDrawer.classList.add("open"); rwDrawer.setAttribute("aria-hidden","false"); rwRenderCart(); }
-}
-function rwCloseCart(){
-  rwDrawer = rwDrawer || $$('#cartDrawer');
-  if (rwDrawer) { rwDrawer.classList.remove("open"); rwDrawer.setAttribute("aria-hidden","true"); }
-}
-
-function rwDisableAddedButtons() {
+function rwUpdateHeaderCount(){ const c = $$('#cartCount'); if (c) c.textContent = rwLoadCart().length; }
+function rwDisableAddedButtons(){
   const cart = rwLoadCart();
   document.querySelectorAll("[data-add]").forEach(btn => {
-    if (cart.includes(btn.dataset.add)) {
-      btn.textContent = "Added";
-      btn.disabled = true;
-    } else {
-      btn.textContent = "Add to Cart";
-      btn.disabled = false;
-    }
+    if (cart.includes(btn.dataset.add)) { btn.textContent = "Added"; btn.disabled = true; }
+    else { btn.textContent = "Add to Cart"; btn.disabled = false; }
   });
 }
 
-// ======= Public API for inline onclick handlers (bulletproof on desktop) =======
-window.RWCart = {
-  add: rwAddToCart,
-  remove: rwRemoveFromCart,
-  open: rwOpenCart,
-  close: rwCloseCart
-};
+// Public API (safe for inline onclick)
+window.RWCart = { add: rwAddToCart, remove: rwRemoveFromCart, open: rwOpenCart, close: rwCloseCart };
 
-// ======= Boot (bind header buttons, URL ?add=) =======
-document.addEventListener('DOMContentLoaded', function(){
-  const headerBtn = $$('#headerCartBtn');
-  const closeBtn  = $$('#closeCart');
-  if (headerBtn) headerBtn.addEventListener('click', rwOpenCart);
-  if (closeBtn)  closeBtn.addEventListener('click', rwCloseCart);
+document.addEventListener('DOMContentLoaded', () => {
+  const openBtn = $$('#headerCartBtn'); const closeBtn = $$('#closeCart');
+  if (openBtn) openBtn.addEventListener('click', rwOpenCart);
+  if (closeBtn) closeBtn.addEventListener('click', rwCloseCart);
 
-  // Auto-add via URL parameter (works from piece pages & gallery links that go to shop)
-  const urlParams = new URLSearchParams(location.search);
-  const addParam = urlParams.get("add");
-  if (addParam && RW_PRODUCTS[addParam]) rwAddToCart(addParam);
+  // ?add=ID support
+  const p = new URLSearchParams(location.search).get("add");
+  if (p && RW_PRODUCTS[p]) rwAddToCart(p);
 
   rwUpdateHeaderCount();
   rwDisableAddedButtons();

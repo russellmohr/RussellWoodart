@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact | Russell's Woodart</title>
   <link rel="stylesheet" href="/style.css"/>
+  <style>
+    .contact-wrap { max-width: 720px; margin: 0 auto; }
+    form.contact { background:#fff; padding: 16px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row > div { display:flex; flex-direction:column; }
+    label { font-weight:700; margin-bottom:6px; }
+    input, textarea { padding: 10px; border:1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    textarea { min-height: 150px; resize: vertical; }
+    .contact .btn { margin-top: 12px; }
+    @media (max-width:680px){ .row { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -45,15 +56,39 @@
     </div>
   </aside>
 
-  <main style="max-width:900px;margin:0 auto;">
-    <h2>Contact</h2>
-    <p>Questions about a piece or a custom commission? I’d love to hear from you.</p>
-    <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
+  <main class="contact-wrap">
+    <h2>Contact / Custom Order</h2>
+    <p>Please tell me about the piece you have in mind. I’ll reply by email.</p>
+
+    <!-- Simple mailto form (opens user’s email client) -->
+    <form class="contact" action="mailto:russellm.woodart.@gmail.com" method="POST" enctype="text/plain">
+      <input type="hidden" name="subject" value="Custom Order / Inquiry from russellwoodart.com" />
+      <div class="row">
+        <div>
+          <label for="name">Your Name</label>
+          <input id="name" name="name" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+      </div>
+      <div>
+        <label for="details">Describe what you’d like (wood, size, finish, timeline, budget)</label>
+        <textarea id="details" name="details" required></textarea>
+      </div>
+      <button class="btn" type="submit">Send</button>
+    </form>
+
+    <p style="color:#777;margin-top:10px;">
+      Prefer to email directly? Write me at
+      <a href="mailto:russellm.woodart.@gmail.com">russellm.woodart.@gmail.com</a>.
+    </p>
   </main>
 
   <footer><p>&copy; 2025 Russell's Woodart</p></footer>
 
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
-  <script src="/cart.js?v=2"></script>
+  <script src="/cart.js?v=3"></script>
 </body>
 </html>

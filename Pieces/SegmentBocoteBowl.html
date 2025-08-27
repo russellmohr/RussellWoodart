@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Segment Bocote Bowl | Russell's Woodart</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <a href="/index.html"><img src="/Images/Logo.png" alt="Russell's Woodart logo" class="header-logo"/></a>
+      <div class="title-block">
+        <h1 class="site-title">Russell's Woodart</h1>
+        <p class="tagline">Inspired by nature, shaped by hand</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/gallery.html">Gallery</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-right">
+      <button id="headerCartBtn" class="cart-link">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 18zM6.2 5l.4 2h12.2l-1.2 6H8.3l-.3-1.5H6.5L7.2 16h11.2a1 1 0 0 0 .98-.804l1.5-7.5A1 1 0 0 0 19.9 6H6.8L6.5 4.5A1 1 0 0 0 5.5 4H4v2h1.2z"/></svg>
+        </span>
+        Cart (<span id="cartCount">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <!-- CART DRAWER -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <h3 style="margin:0">Your Cart</h3>
+      <button id="closeCart" class="btn" style="padding:6px 10px">Close</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <div class="paypal-wrap">
+      <div id="paypal-button-container"></div>
+      <small style="color:#777;display:block;margin-top:6px;">PayPal checkout — USD</small>
+    </div>
+  </aside>
+
+  <main class="piece">
+    <div class="piece-media">
+      <img id="mainImg" src="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg" alt="Segment Bocote Bowl - main view" class="piece-main"/>
+
+      <div class="thumbs">
+        <img src="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg" data-full="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg" alt="Main view" loading="lazy"/>
+        <img src="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-2.jpg" data-full="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-2.jpg" alt="Angle view" loading="lazy"/>
+        <img src="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-3.jpg" data-full="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-3.jpg" alt="Detail view" loading="lazy"/>
+      </div>
+
+      <a href="/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg" class="btn" id="viewLarge" target="_blank" rel="noopener">View full size</a>
+    </div>
+
+    <section class="piece-info">
+      <h2>Segment Bocote Bowl</h2>
+      <p>Segmented bowl highlighting Bocote’s dramatic grain.</p>
+      <ul class="specs">
+        <li><strong>Wood:</strong> Bocote (segmented)</li>
+        <li><strong>Dimensions:</strong> 8&quot; × 3&quot; (example)</li>
+        <li><strong>Finish:</strong> Polished</li>
+        <li><strong>Status:</strong> <span class="status" data-status-id="SegmentBocoteBowl">Available</span></li>
+      </ul>
+
+      <p style="margin-top:14px;">
+        <button class="btn" data-add="SegmentBocoteBowl" onclick="RWCart.add('SegmentBocoteBowl')">Add to Cart</button>
+        <a href="/gallery.html" class="btn" style="margin-left:8px;">← Back to Gallery</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const mainImg  = document.getElementById('mainImg');
+      const viewLink = document.getElementById('viewLarge');
+      const thumbs   = document.querySelectorAll('.thumbs img');
+      thumbs.forEach(img => {
+        img.addEventListener('click', () => {
+          const src = img.getAttribute('data-full') || img.src;
+          mainImg.src = src;
+          viewLink.href = src;
+          thumbs.forEach(t => t.classList.remove('active-thumb'));
+          img.classList.add('active-thumb');
+        });
+      });
+    })();
+  </script>
+
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+  <script src="/cart.js?v=3"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// ======= Catalog (update here) =======
+// ======= Catalog (update titles/prices/images here) =======
 const RW_PRODUCTS = {
   "GoldenManHF": {
     id: "GoldenManHF",
@@ -20,29 +20,86 @@ const RW_PRODUCTS = {
   }
 };
 
-// ======= Cart (one-of-a-kind) =======
-const RW_CART_KEY = "rw_cart_v2";
+// ======= LocalStorage keys (bump versions if schema changes) =======
+const RW_CART_KEY  = "rw_cart_v3";
+const RW_STOCK_KEY = "rw_stock_v1";
+
+// ======= Helpers =======
 const $$ = (s) => document.querySelector(s);
 
 function rwLoadCart(){ try { return JSON.parse(localStorage.getItem(RW_CART_KEY)) || []; } catch { return []; } }
 function rwSaveCart(cart){ localStorage.setItem(RW_CART_KEY, JSON.stringify(cart)); rwRenderCart(); rwUpdateHeaderCount(); }
+
+function rwDefaultStock(){
+  // By default, every piece has stock 1 (one-of-a-kind)
+  const s = {};
+  Object.keys(RW_PRODUCTS).forEach(id => { s[id] = 1; });
+  return s;
+}
+function rwLoadStock(){
+  try {
+    const s = JSON.parse(localStorage.getItem(RW_STOCK_KEY));
+    if (s && typeof s === 'object') return s;
+  } catch {}
+  const fresh = rwDefaultStock();
+  localStorage.setItem(RW_STOCK_KEY, JSON.stringify(fresh));
+  return fresh;
+}
+function rwSaveStock(stock){
+  localStorage.setItem(RW_STOCK_KEY, JSON.stringify(stock));
+  rwDisableAddedButtons();
+  rwUpdateStatusBadges();
+}
+
+function rwIsSold(id){
+  const stock = rwLoadStock();
+  return stock[id] === 0;
+}
+function rwMarkSold(ids){
+  const stock = rwLoadStock();
+  ids.forEach(id => { if (id in stock) stock[id] = 0; });
+  rwSaveStock(stock);
+}
+
 function rwAddToCart(id){
-  const cart = rwLoadCart();
   if (!RW_PRODUCTS[id]) return;
+  if (rwIsSold(id)) {
+    alert("Sorry, this piece has been sold.");
+    return;
+  }
+  const cart = rwLoadCart();
   if (!cart.includes(id)) cart.push(id);
   rwSaveCart(cart);
   rwDisableAddedButtons();
   rwOpenCart();
 }
-function rwRemoveFromCart(id){ const cart = rwLoadCart().filter(x => x !== id); rwSaveCart(cart); rwDisableAddedButtons(); }
+function rwRemoveFromCart(id){
+  const cart = rwLoadCart().filter(x => x !== id);
+  rwSaveCart(cart);
+  rwDisableAddedButtons();
+}
+
 function rwCartLines(){ return rwLoadCart().map(id => RW_PRODUCTS[id]).filter(Boolean); }
 function rwCartTotalCents(){ return rwCartLines().reduce((s,p)=>s+p.price, 0); }
 function rwFmtUSD(c){ return new Intl.NumberFormat('en-US',{ style:'currency', currency:'USD' }).format(c/100); }
 
-// Drawer + rendering
+// ======= Drawer + rendering =======
 let rwDrawer;
-function rwOpenCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ rwDrawer.classList.add("open"); rwDrawer.setAttribute("aria-hidden","false"); rwRenderCart(); } }
-function rwCloseCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ rwDrawer.classList.remove("open"); rwDrawer.setAttribute("aria-hidden","true"); } }
+function rwOpenCart(){
+  rwDrawer = rwDrawer || $$('#cartDrawer');
+  if (rwDrawer){
+    rwDrawer.classList.add("open");
+    rwDrawer.setAttribute("aria-hidden","false");
+    rwRenderCart();
+  }
+}
+function rwCloseCart(){
+  rwDrawer = rwDrawer || $$('#cartDrawer');
+  if (rwDrawer){
+    rwDrawer.classList.remove("open");
+    rwDrawer.setAttribute("aria-hidden","true");
+  }
+}
 
 function rwRenderCart(){
   const itemsDiv = $$('#cartItems'); const totalSpan = $$('#cartTotal');
@@ -64,10 +121,10 @@ function rwRenderCart(){
     totalSpan.textContent = rwFmtUSD(rwCartTotalCents());
   }
 
-  // Mount PayPal buttons if present
+  // PayPal buttons render fresh each time drawer opens
   const paypalDiv = $$('#paypal-button-container');
   if (paypalDiv && window.paypal){
-    paypalDiv.innerHTML = ""; // ensure fresh render
+    paypalDiv.innerHTML = "";
     window.paypal.Buttons({
       createOrder: (data, actions) => {
         const value = (rwCartTotalCents()/100).toFixed(2);
@@ -89,8 +146,13 @@ function rwRenderCart(){
       },
       onApprove: (data, actions) =>
         actions.order.capture().then(details => {
+          // Mark purchased items as SOLD
+          const purchasedIds = rwLoadCart();
+          rwMarkSold(purchasedIds);
+          // Clear cart and refresh UI
           localStorage.removeItem(RW_CART_KEY);
-          rwRenderCart(); rwDisableAddedButtons();
+          rwRenderCart();
+          rwDisableAddedButtons();
           alert("Thank you, " + (details.payer.name?.given_name || "collector") + "! Your order was completed.");
           rwCloseCart();
         })
@@ -99,11 +161,32 @@ function rwRenderCart(){
 }
 
 function rwUpdateHeaderCount(){ const c = $$('#cartCount'); if (c) c.textContent = rwLoadCart().length; }
+
+// Change button states on all pages
 function rwDisableAddedButtons(){
   const cart = rwLoadCart();
+  const stock = rwLoadStock();
   document.querySelectorAll("[data-add]").forEach(btn => {
-    if (cart.includes(btn.dataset.add)) { btn.textContent = "Added"; btn.disabled = true; }
-    else { btn.textContent = "Add to Cart"; btn.disabled = false; }
+    const id = btn.dataset.add;
+    if (!id) return;
+    if (stock[id] === 0) { btn.textContent = "Sold"; btn.disabled = true; return; }
+    if (cart.includes(id)) { btn.textContent = "Added"; btn.disabled = true; return; }
+    btn.textContent = "Add to Cart"; btn.disabled = false;
+  });
+}
+
+// Update status labels (piece pages)
+function rwUpdateStatusBadges(){
+  const stock = rwLoadStock();
+  document.querySelectorAll("[data-status-id]").forEach(el => {
+    const id = el.getAttribute("data-status-id");
+    if (!id) return;
+    const sold = stock[id] === 0;
+    el.textContent = sold ? "Sold" : "Available";
+    el.style.color = sold ? "#a00" : "inherit";
+    // Also disable any add button on the same page if sold
+    const addBtn = document.querySelector(`[data-add="${id}"]`);
+    if (addBtn && sold) { addBtn.textContent = "Sold"; addBtn.disabled = true; }
   });
 }
 
@@ -122,5 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   rwUpdateHeaderCount();
   rwDisableAddedButtons();
+  rwUpdateStatusBadges();
   rwRenderCart();
 });

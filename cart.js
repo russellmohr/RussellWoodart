@@ -1,5 +1,3 @@
-<!-- Save as /cart.js (no HTML tags in your file; just the JS below) -->
-<script>
 // ======= Catalog (update here) =======
 const RW_PRODUCTS = {
   "GoldenManHF": {
@@ -23,12 +21,19 @@ const RW_PRODUCTS = {
 };
 
 // ======= Cart (one-of-a-kind) =======
-const RW_CART_KEY = "rw_cart_v1";
+const RW_CART_KEY = "rw_cart_v2";
 const $$ = (s) => document.querySelector(s);
 
 function rwLoadCart(){ try { return JSON.parse(localStorage.getItem(RW_CART_KEY)) || []; } catch { return []; } }
 function rwSaveCart(cart){ localStorage.setItem(RW_CART_KEY, JSON.stringify(cart)); rwRenderCart(); rwUpdateHeaderCount(); }
-function rwAddToCart(id){ const cart = rwLoadCart(); if (!RW_PRODUCTS[id]) return; if (!cart.includes(id)) cart.push(id); rwSaveCart(cart); rwDisableAddedButtons(); rwOpenCart(); }
+function rwAddToCart(id){
+  const cart = rwLoadCart();
+  if (!RW_PRODUCTS[id]) return;
+  if (!cart.includes(id)) cart.push(id);
+  rwSaveCart(cart);
+  rwDisableAddedButtons();
+  rwOpenCart();
+}
 function rwRemoveFromCart(id){ const cart = rwLoadCart().filter(x => x !== id); rwSaveCart(cart); rwDisableAddedButtons(); }
 function rwCartLines(){ return rwLoadCart().map(id => RW_PRODUCTS[id]).filter(Boolean); }
 function rwCartTotalCents(){ return rwCartLines().reduce((s,p)=>s+p.price, 0); }
@@ -40,10 +45,14 @@ function rwOpenCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ 
 function rwCloseCart(){ rwDrawer = rwDrawer || $$('#cartDrawer'); if (rwDrawer){ rwDrawer.classList.remove("open"); rwDrawer.setAttribute("aria-hidden","true"); } }
 
 function rwRenderCart(){
-  const itemsDiv = $$('#cartItems'); const totalSpan = $$('#cartTotal'); if (!itemsDiv || !totalSpan) return;
+  const itemsDiv = $$('#cartItems'); const totalSpan = $$('#cartTotal');
+  if (!itemsDiv || !totalSpan) return;
+
   const lines = rwCartLines();
-  if (!lines.length){ itemsDiv.innerHTML = "<p>Your cart is empty.</p>"; totalSpan.textContent = "$0.00"; }
-  else {
+  if (!lines.length){
+    itemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+    totalSpan.textContent = "$0.00";
+  } else {
     itemsDiv.innerHTML = lines.map(l => `
       <div class="cart-row">
         <img src="${l.img}" alt="${l.name}"/>
@@ -58,7 +67,7 @@ function rwRenderCart(){
   // Mount PayPal buttons if present
   const paypalDiv = $$('#paypal-button-container');
   if (paypalDiv && window.paypal){
-    paypalDiv.innerHTML = "";
+    paypalDiv.innerHTML = ""; // ensure fresh render
     window.paypal.Buttons({
       createOrder: (data, actions) => {
         const value = (rwCartTotalCents()/100).toFixed(2);
@@ -101,17 +110,17 @@ function rwDisableAddedButtons(){
 // Public API (safe for inline onclick)
 window.RWCart = { add: rwAddToCart, remove: rwRemoveFromCart, open: rwOpenCart, close: rwCloseCart };
 
+// Boot
 document.addEventListener('DOMContentLoaded', () => {
   const openBtn = $$('#headerCartBtn'); const closeBtn = $$('#closeCart');
   if (openBtn) openBtn.addEventListener('click', rwOpenCart);
-  if (closeBtn) closeBtn.addEventListener('click', rwCloseCart);
+  if (closeBtn)  closeBtn.addEventListener('click', rwCloseCart);
 
   // ?add=ID support
-  const p = new URLSearchParams(location.search).get("add");
-  if (p && RW_PRODUCTS[p]) rwAddToCart(p);
+  const addParam = new URLSearchParams(location.search).get("add");
+  if (addParam && RW_PRODUCTS[addParam]) rwAddToCart(addParam);
 
   rwUpdateHeaderCount();
   rwDisableAddedButtons();
   rwRenderCart();
 });
-</script>

@@ -9,7 +9,7 @@ const RW_PRODUCTS = {
   "SegmentBocoteBowl": {
     id: "SegmentBocoteBowl",
     name: "Segment Bocote Bowl",
-    price: 32000,
+    price: 35000, // updated to $350
     img: "/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg"
   },
   "CherryBurlGoblet": {
@@ -21,8 +21,8 @@ const RW_PRODUCTS = {
 };
 
 // ======= LocalStorage keys (bump versions if schema changes) =======
-const RW_CART_KEY  = "rw_cart_v3";
-const RW_STOCK_KEY = "rw_stock_v1";
+const RW_CART_KEY  = "rw_cart_v4";
+const RW_STOCK_KEY = "rw_stock_v2";
 
 // ======= Helpers =======
 const $$ = (s) => document.querySelector(s);
@@ -31,19 +31,26 @@ function rwLoadCart(){ try { return JSON.parse(localStorage.getItem(RW_CART_KEY)
 function rwSaveCart(cart){ localStorage.setItem(RW_CART_KEY, JSON.stringify(cart)); rwRenderCart(); rwUpdateHeaderCount(); }
 
 function rwDefaultStock(){
-  // By default, every piece has stock 1 (one-of-a-kind)
+  // Default: 1 each (one-of-a-kind), but Cherry Burl Goblet is SOLD now.
   const s = {};
   Object.keys(RW_PRODUCTS).forEach(id => { s[id] = 1; });
+  s["CherryBurlGoblet"] = 0; // SOLD by default
   return s;
 }
 function rwLoadStock(){
-  try {
-    const s = JSON.parse(localStorage.getItem(RW_STOCK_KEY));
-    if (s && typeof s === 'object') return s;
-  } catch {}
-  const fresh = rwDefaultStock();
-  localStorage.setItem(RW_STOCK_KEY, JSON.stringify(fresh));
-  return fresh;
+  let s;
+  try { s = JSON.parse(localStorage.getItem(RW_STOCK_KEY)); } catch {}
+  if (!s || typeof s !== 'object') {
+    s = rwDefaultStock();
+    localStorage.setItem(RW_STOCK_KEY, JSON.stringify(s));
+  } else {
+    // ensure Cherry remains SOLD by default
+    if (typeof s["CherryBurlGoblet"] === "undefined" || s["CherryBurlGoblet"] !== 0) {
+      s["CherryBurlGoblet"] = 0;
+      localStorage.setItem(RW_STOCK_KEY, JSON.stringify(s));
+    }
+  }
+  return s;
 }
 function rwSaveStock(stock){
   localStorage.setItem(RW_STOCK_KEY, JSON.stringify(stock));
@@ -146,10 +153,9 @@ function rwRenderCart(){
       },
       onApprove: (data, actions) =>
         actions.order.capture().then(details => {
-          // Mark purchased items as SOLD
+          // mark purchased items as SOLD
           const purchasedIds = rwLoadCart();
           rwMarkSold(purchasedIds);
-          // Clear cart and refresh UI
           localStorage.removeItem(RW_CART_KEY);
           rwRenderCart();
           rwDisableAddedButtons();
@@ -162,20 +168,32 @@ function rwRenderCart(){
 
 function rwUpdateHeaderCount(){ const c = $$('#cartCount'); if (c) c.textContent = rwLoadCart().length; }
 
-// Change button states on all pages
+// ======= Button & Status states =======
 function rwDisableAddedButtons(){
   const cart = rwLoadCart();
   const stock = rwLoadStock();
   document.querySelectorAll("[data-add]").forEach(btn => {
     const id = btn.dataset.add;
     if (!id) return;
-    if (stock[id] === 0) { btn.textContent = "Sold"; btn.disabled = true; return; }
-    if (cart.includes(id)) { btn.textContent = "Added"; btn.disabled = true; return; }
-    btn.textContent = "Add to Cart"; btn.disabled = false;
+
+    btn.classList.remove('added'); // reset style each pass
+
+    if (stock[id] === 0) {
+      btn.textContent = "Sold";
+      btn.disabled = true;
+      return;
+    }
+    if (cart.includes(id)) {
+      btn.textContent = "Added to Cart";
+      btn.classList.add('added');   // green style
+      btn.disabled = true;
+      return;
+    }
+    btn.textContent = "Add to Cart";
+    btn.disabled = false;
   });
 }
 
-// Update status labels (piece pages)
 function rwUpdateStatusBadges(){
   const stock = rwLoadStock();
   document.querySelectorAll("[data-status-id]").forEach(el => {
@@ -184,9 +202,8 @@ function rwUpdateStatusBadges(){
     const sold = stock[id] === 0;
     el.textContent = sold ? "Sold" : "Available";
     el.style.color = sold ? "#a00" : "inherit";
-    // Also disable any add button on the same page if sold
     const addBtn = document.querySelector(`[data-add="${id}"]`);
-    if (addBtn && sold) { addBtn.textContent = "Sold"; addBtn.disabled = true; }
+    if (addBtn && sold) { addBtn.textContent = "Sold"; addBtn.disabled = true; addBtn.classList.remove('added'); }
   });
 }
 

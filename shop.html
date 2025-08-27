@@ -46,19 +46,19 @@
         <div class="product-body">
           <h3 class="product-title">Segment Bocote Bowl</h3>
           <p class="product-sub">Segmented Bocote bowl</p>
-          <div class="price" data-price="320">USD $320</div> <!-- edit price if needed -->
+          <div class="price" data-price="320">USD $320</div>
           <button class="btn-add" data-add="SegmentBocoteBowl">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
         </div>
       </div>
 
-      <!-- Product 3 -->
+      <!-- Product 3 (filename corrected) -->
       <div class="product-card" data-id="CherryBurlGoblet">
-        <img src="/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet.1.jpg" alt="Cherry Burl Goblet"/>
+        <img src="/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet-1.jpg" alt="Cherry Burl Goblet"/>
         <div class="product-body">
           <h3 class="product-title">Cherry Burl Goblet</h3>
           <p class="product-sub">Cherry burl, oil-wax finish</p>
-          <div class="price" data-price="260">USD $260</div> <!-- edit price if needed -->
+          <div class="price" data-price="260">USD $260</div>
           <button class="btn-add" data-add="CherryBurlGoblet">Add to Cart</button>
           <a class="btn" style="display:inline-block;margin-top:8px" href="/gallery.html">View details</a>
         </div>
@@ -108,14 +108,14 @@
     "SegmentBocoteBowl": {
       id: "SegmentBocoteBowl",
       name: "Segment Bocote Bowl",
-      price: 32000, // edit if needed
+      price: 32000,
       img: "/Images/Gallery/SegmentBocoteBowl/SegmentBocoteBowl-1.jpg"
     },
     "CherryBurlGoblet": {
       id: "CherryBurlGoblet",
       name: "Cherry Burl Goblet",
-      price: 26000, // edit if needed
-      img: "/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet.1.jpg"
+      price: 26000,
+      img: "/Images/Gallery/CherryBurlGoblet/CherryBurlGoblet-1.jpg"
     }
   };
 
@@ -201,7 +201,7 @@
     btn.addEventListener("click", () => addToCart(btn.dataset.add));
   });
 
-  // Auto-add via URL param
+  // Auto-add via URL param (works from Gallery buttons)
   const urlParams = new URLSearchParams(location.search);
   const addParam = urlParams.get("add");
   if (addParam && PRODUCTS[addParam]) addToCart(addParam);
